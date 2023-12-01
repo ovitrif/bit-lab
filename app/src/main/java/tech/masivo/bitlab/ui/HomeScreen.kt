@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import tech.masivo.bitlab.MainViewModel
 import tech.masivo.bitlab.data.model.BlockResult
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
@@ -27,7 +26,7 @@ import tech.masivo.bitlab.ui.utils.formatTimestamp
 
 @Composable
 fun HomeScreen(
-    uiState: MainViewModel.UiState,
+    uiState: HomeViewModel.UiState,
     modifier: Modifier = Modifier,
     onNavigateToBlock: (id: String) -> Unit = {},
 ) {
@@ -105,7 +104,7 @@ private fun BlockCardUi(
 @Composable
 private fun HomeScreenPreview() {
     BitlabTheme {
-        val uiState = MainViewModel.UiState(
+        val uiState = HomeViewModel.UiState(
             blocks = List(3) {
                 BlockResult(
                     id = "$it",

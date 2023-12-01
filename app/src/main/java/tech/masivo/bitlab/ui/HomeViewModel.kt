@@ -1,4 +1,4 @@
-package tech.masivo.bitlab
+package tech.masivo.bitlab.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import tech.masivo.bitlab.data.sources.Api
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val api: Api,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(initUiState())

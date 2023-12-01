@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import tech.masivo.bitlab.ui.HomeScreen
+import tech.masivo.bitlab.ui.HomeViewModel
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 
 object Routes {
