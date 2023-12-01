@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BlockResult(
-    val id: String? = null,
-    val timestamp: Int? = null,
+    val id: String,
+    val timestamp: Long,
     val height: Int? = null,
     val version: Int? = null,
     val bits: Int? = null,
