@@ -31,11 +31,18 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import tech.masivo.bitlab.data.model.BlockResult
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.formatTimestamp
 
+object Routes {
+    const val Home = "home"
+    const val Block = "block"
+}
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
@@ -50,7 +57,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
-                    AppUi(uiState.value)
+
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = Routes.Home) {
+                        composable(Routes.Home) { HomeScreen(uiState.value) }
+                        composable(Routes.Block) {  }
+                    }
                 }
             }
         }
@@ -58,7 +70,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppUi(uiState: MainViewModel.UiState, modifier: Modifier = Modifier) {
+fun HomeScreen(uiState: MainViewModel.UiState, modifier: Modifier = Modifier) {
     Column {
         Text(
             text = uiState.title,
@@ -125,7 +137,7 @@ fun BlockCardUi(
 
 @Preview(showBackground = true, device = Devices.PIXEL_4, showSystemUi = true)
 @Composable
-fun AppUiPreview() {
+fun HomeScreenPreview() {
     BitlabTheme {
         val uiState = MainViewModel.UiState(
             blocks = List(3) {
@@ -136,6 +148,6 @@ fun AppUiPreview() {
             }
         )
 
-        AppUi(uiState)
+        HomeScreen(uiState)
     }
 }
