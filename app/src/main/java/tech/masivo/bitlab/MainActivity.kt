@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import tech.masivo.bitlab.ui.BlockScreen
 import tech.masivo.bitlab.ui.HomeScreen
 import tech.masivo.bitlab.ui.HomeViewModel
 import tech.masivo.bitlab.ui.theme.BitlabTheme
@@ -26,7 +27,7 @@ object Routes {
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +60,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-private fun BlockScreen(
-    id: String,
-) {
-    Text(text = "Block id: $id")
 }
