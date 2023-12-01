@@ -1,5 +1,6 @@
 package tech.masivo.bitlab.data.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,7 +13,8 @@ data class BlockResult(
     val nonce: Long? = null,
     val difficulty: Double? = null,
     val merkleRoot: String? = null,
-    val txCount: Int,
+    @SerialName("tx_count")
+    val txCount: Int? = null,
     val size: Int? = null,
     val weight: Int? = null,
     val previousblockhash: String? = null,
