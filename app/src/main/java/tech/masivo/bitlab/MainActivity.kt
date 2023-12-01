@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -67,13 +68,19 @@ fun AppUi(uiState: MainViewModel.UiState, modifier: Modifier = Modifier) {
         Button(onClick = uiState.getBlocks) {
             Text(text = "Get Blocks")
         }
-        BlocksListUi(uiState.blocks)
+        BlocksListUi(
+            uiState.blocks,
+            onBlockClick = uiState.onBlockClick,
+        )
         BlockCardUi()
     }
 }
 
 @Composable
-fun BlocksListUi(blocks: List<BlockResult>) {
+fun BlocksListUi(
+    blocks: List<BlockResult>,
+    onBlockClick: (id: String) -> Unit,
+) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         userScrollEnabled = true,
@@ -85,6 +92,7 @@ fun BlocksListUi(blocks: List<BlockResult>) {
             key = { it.id },
         ) {
             BlockCardUi(
+                modifier = Modifier.clickable { onBlockClick(it.id) },
                 time = it.timestamp.formatTimestamp()
             )
         }
@@ -92,10 +100,13 @@ fun BlocksListUi(blocks: List<BlockResult>) {
 }
 
 @Composable
-fun BlockCardUi(time: String = "") {
+fun BlockCardUi(
+    modifier: Modifier = Modifier,
+    time: String = "",
+) {
     Card(
         shape = CardDefaults.elevatedShape,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
     ) {

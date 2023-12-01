@@ -1,8 +1,5 @@
 package tech.masivo.bitlab
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    @Suppress("unused") private val api: Api
+    @Suppress("unused") private val api: Api,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(initUiState())
     val uiState: StateFlow<UiState> = _uiState
@@ -29,16 +26,22 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private fun onBlockClick(id: String) {
+        TODO("Clicked block with id: $id")
+    }
+
     // REGION: State
     private fun initUiState(): UiState {
         return UiState(
-            getBlocks = ::getBlocks
+            getBlocks = ::getBlocks,
+            onBlockClick = ::onBlockClick,
         )
     }
 
     data class UiState(
         val title: String = "Bitcoin Blocks Explorer",
         val getBlocks: () -> Unit = {},
-        val blocks: List<BlockResult> = emptyList()
+        val onBlockClick: (id: String) -> Unit = {},
+        val blocks: List<BlockResult> = emptyList(),
     )
 }
