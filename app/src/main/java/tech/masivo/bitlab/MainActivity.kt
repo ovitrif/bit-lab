@@ -129,7 +129,8 @@ fun BlocksListUi(
             BlockCardUi(
                 modifier = Modifier.clickable { onBlockClick(it.id) },
                 time = it.timestamp.formatTimestamp(),
-                size = it.bits.asMegabytes()
+                size = it.bits.asMegabytes(),
+                transactions = it.txCount.toString(),
             )
         }
     }
@@ -140,6 +141,7 @@ fun BlockCardUi(
     modifier: Modifier = Modifier,
     time: String = "",
     size: String = "",
+    transactions: String = "",
 ) {
     Card(
         shape = CardDefaults.elevatedShape,
@@ -154,6 +156,10 @@ fun BlockCardUi(
         InfoRow(
             label = "Size:",
             value = size,
+        )
+        InfoRow(
+            label = "Transactions:",
+            value = transactions,
         )
     }
 }
@@ -189,6 +195,7 @@ fun HomeScreenPreview() {
                     id = "$it",
                     timestamp = System.currentTimeMillis(),
                     bits = it * 100000L,
+                    txCount = it * 100,
                 )
             }
         )

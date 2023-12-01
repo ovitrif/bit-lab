@@ -12,7 +12,7 @@ data class BlockResult(
     val nonce: Long? = null,
     val difficulty: Double? = null,
     val merkleRoot: String? = null,
-    val txCount: Int? = null,
+    val txCount: Int,
     val size: Int? = null,
     val weight: Int? = null,
     val previousblockhash: String? = null,
