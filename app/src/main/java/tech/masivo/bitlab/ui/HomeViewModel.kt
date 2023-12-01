@@ -7,19 +7,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import tech.masivo.bitlab.data.model.BlockResult
-import tech.masivo.bitlab.data.sources.Api
+import tech.masivo.bitlab.data.sources.ApiClient
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val api: Api,
+    private val apiClient: ApiClient,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(initUiState())
     val uiState: StateFlow<UiState> = _uiState
 
     private fun getBlocks() {
         viewModelScope.launch {
-            val blocks = api.blocks.getBlocks()
+            val blocks = apiClient.mempool.getBlocks()
             _uiState.emit(
                 _uiState.value.copy(blocks = blocks)
             )

@@ -10,8 +10,8 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 @OptIn(ExperimentalSerializationApi::class)
-class Api @Inject constructor() {
-    private val baseUrl = "https://mempool.space/api/v1/"
+class ApiClient @Inject constructor() {
+    private val mempoolBaseUrl = "https://mempool.space/api/v1/"
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
         setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -27,11 +27,11 @@ class Api @Inject constructor() {
         ignoreUnknownKeys = true
     }
 
-    private val retrofit = Retrofit.Builder()
+    private fun retrofitBuilder(baseUrl: String) = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
         .addConverterFactory(json.asConverterFactory(contentType))
         .build()
 
-    val blocks: BlocksApi = retrofit.create(BlocksApi::class.java)
+    val mempool: MempoolApi = retrofitBuilder(mempoolBaseUrl).create(MempoolApi::class.java)
 }
