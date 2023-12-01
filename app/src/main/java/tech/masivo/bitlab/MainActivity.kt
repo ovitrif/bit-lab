@@ -43,6 +43,7 @@ object Routes {
     const val Home = "home"
     const val Block = "block"
 }
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
@@ -60,8 +61,19 @@ class MainActivity : ComponentActivity() {
 
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = Routes.Home) {
-                        composable(Routes.Home) { HomeScreen(uiState.value) }
-                        composable(Routes.Block) {  }
+                        composable(Routes.Home) {
+                            HomeScreen(
+                                uiState = uiState.value,
+                                onNavigateToBlock = {
+                                    navController.navigate("${Routes.Block}/id=$it")
+                                }
+                            )
+                        }
+                        composable("${Routes.Block}/id={id}") { backStackEntry ->
+                            backStackEntry.arguments?.getString("id")?.let {
+                                BlockScreen(it)
+                            }
+                        }
                     }
                 }
             }
@@ -70,7 +82,19 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomeScreen(uiState: MainViewModel.UiState, modifier: Modifier = Modifier) {
+private fun BlockScreen(
+    id: String,
+) {
+    Text(text = "Block id: $id")
+}
+
+
+@Composable
+fun HomeScreen(
+    uiState: MainViewModel.UiState,
+    modifier: Modifier = Modifier,
+    onNavigateToBlock: (id: String) -> Unit = {},
+) {
     Column {
         Text(
             text = uiState.title,
@@ -82,7 +106,7 @@ fun HomeScreen(uiState: MainViewModel.UiState, modifier: Modifier = Modifier) {
         }
         BlocksListUi(
             uiState.blocks,
-            onBlockClick = uiState.onBlockClick,
+            onBlockClick = onNavigateToBlock,
         )
         BlockCardUi()
     }
