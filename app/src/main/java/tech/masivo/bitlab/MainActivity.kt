@@ -17,9 +17,10 @@ import tech.masivo.bitlab.ui.theme.BitlabTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel: MainViewModel by viewModels()
         setContent {
             BitlabTheme {
                 // A surface container using the 'background' color from the theme
