@@ -8,3 +8,8 @@ private val BLOCK_DATE_FORMAT = SimpleDateFormat("HH:mm:ss", Locale.ROOT)
 fun Long.formatTimestamp(): String {
     return BLOCK_DATE_FORMAT.format(Date(this))
 }
+
+fun Long.asMegabytes(): String {
+    val megabytes = this.toDouble() / 8 / 1024 / 102
+    return String.format("%.2f MB", megabytes)
+}

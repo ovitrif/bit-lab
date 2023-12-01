@@ -8,7 +8,7 @@ data class BlockResult(
     val timestamp: Long,
     val height: Int? = null,
     val version: Int? = null,
-    val bits: Int? = null,
+    val bits: Long,
     val nonce: Long? = null,
     val difficulty: Double? = null,
     val merkleRoot: String? = null,
