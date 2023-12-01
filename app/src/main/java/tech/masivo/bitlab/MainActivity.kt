@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
+import tech.masivo.bitlab.ui.MainUiState
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 
 @AndroidEntryPoint
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppUi(viewModel.name)
+                    AppUi(viewModel.uiState)
                 }
             }
         }
@@ -36,9 +37,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppUi(name: String, modifier: Modifier = Modifier) {
+fun AppUi(uiState: MainUiState, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = uiState.title,
         modifier = modifier
     )
 }
@@ -47,6 +48,6 @@ fun AppUi(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun AppUiPreview() {
     BitlabTheme {
-        AppUi("Android")
+        AppUi(MainUiState())
     }
 }
