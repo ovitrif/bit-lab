@@ -8,17 +8,14 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-@OptIn(ExperimentalSerializationApi::class)
 class ApiClient @Inject constructor(
     private val okHttpClient: OkHttpClient,
+    private val json: Json,
 ) {
     private val mempoolBaseUrl = "https://mempool.space/api/"
     private val contentType = "application/json".toMediaType()
 
-    private val json = Json {
-        ignoreUnknownKeys = true
-    }
-
+    @OptIn(ExperimentalSerializationApi::class)
     private fun retrofitBuilder(baseUrl: String) = Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
