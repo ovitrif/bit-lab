@@ -1,5 +1,6 @@
 package tech.masivo.bitlab.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +21,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.masivo.bitlab.data.model.TransactionResult
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
-import tech.masivo.bitlab.ui.utils.formatTimestamp
 import tech.masivo.bitlab.ui.utils.trimId
 
 @Composable
@@ -42,7 +42,7 @@ fun BlockDetailScreen(
 @Composable
 fun BlockDetails(
     blockId: String,
-    transactions: List<TransactionResult>,
+    transactions: List<BlockDetailViewModel.TransactionUiState>,
 ) {
     Column {
         Text(
@@ -56,7 +56,7 @@ fun BlockDetails(
 @Composable
 private fun TransactionsListUI(
     modifier: Modifier = Modifier,
-    items: List<TransactionResult> = emptyList(),
+    items: List<BlockDetailViewModel.TransactionUiState> = emptyList(),
 ) {
     val scrollState = rememberLazyListState()
     LazyColumn(
@@ -67,17 +67,23 @@ private fun TransactionsListUI(
         item { Text(text = "Last ${items.size} Transactions") }
         items(
             items = items,
-            key = { it.txid },
+            key = { it.id },
         ) {
             Card(
                 shape = CardDefaults.elevatedShape,
                 modifier = modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .clickable(onClick = it::toggle),
             ) {
                 InfoRow(
-                    label = it.txid.trimId(),
+                    label = it.id.trimId(),
                 )
+                if (it.isExpanded.value) {
+                    InfoRow(
+                        label = "Expanded",
+                    )
+                }
             }
         }
     }
@@ -89,12 +95,7 @@ private fun BlockScreenPreview() {
     BitlabTheme {
         BlockDetails(
             blockId = "4",
-            transactions = List(3) {
-                TransactionResult(
-                    txid = "$it",
-                    fee = 0L,
-                )
-            }
+            transactions = emptyList()
         )
     }
 }

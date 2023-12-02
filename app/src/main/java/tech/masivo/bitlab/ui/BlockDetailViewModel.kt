@@ -1,12 +1,15 @@
 package tech.masivo.bitlab.ui
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import tech.masivo.bitlab.data.model.TransactionResult
 import tech.masivo.bitlab.data.sources.ApiClient
 import javax.inject.Inject
 
@@ -14,7 +17,7 @@ import javax.inject.Inject
 class BlockDetailViewModel @Inject constructor(
     private val apiClient: ApiClient,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(initUiState())
+    private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 
     fun fetchDetails(blockId: String) {
@@ -25,18 +28,25 @@ class BlockDetailViewModel @Inject constructor(
     private fun getTransactions(blockId: String) {
         viewModelScope.launch {
             val transactions = apiClient.mempool.getBlockTransactions(blockId)
+                .map { TransactionUiState(id = it.txid) }
             _uiState.emit(
                 _uiState.value.copy(transactions = transactions)
             )
         }
     }
 
-    // REGION: State
-    private fun initUiState(): UiState {
-        return UiState()
-    }
-
     data class UiState(
-        val transactions: List<TransactionResult> = emptyList(),
+        val transactions: List<TransactionUiState> = emptyList(),
     )
+
+    data class TransactionUiState(
+        val id: String,
+    ) {
+        private var _isExpanded = mutableStateOf(false)
+        var isExpanded: State<Boolean> = _isExpanded
+
+        fun toggle() {
+            _isExpanded.value = !_isExpanded.value
+        }
+    }
 }
