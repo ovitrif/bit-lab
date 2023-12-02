@@ -78,10 +78,6 @@ private fun TransactionsListUI(
                 InfoRow(
                     label = it.txid.trimId(),
                 )
-                InfoRow(
-                    label = "At:",
-                    value = it.locktime.formatTimestamp(),
-                )
             }
         }
     }
