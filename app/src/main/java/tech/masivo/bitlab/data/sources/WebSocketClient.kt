@@ -17,7 +17,7 @@ class WebSocketClient @Inject constructor(
 
     private fun connect(
         baseUrl: String,
-        listener: WebSocketListener
+        listener: WebSocketListener,
     ): WebSocket {
         return okHttpClient.newWebSocket(
             Request.Builder().url(baseUrl).build(),
@@ -29,7 +29,7 @@ class WebSocketClient @Inject constructor(
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 val initAction = """{ "action": "init" }"""
-                val wantAction = """{ "action": "want", "data": ["blocks", "mempool-blocks"] }"""
+                val wantAction = """{"action":"want","data":["blocks","stats","mempool-blocks"]}"""
 
                 webSocket.send(initAction)
                 webSocket.send(wantAction)
