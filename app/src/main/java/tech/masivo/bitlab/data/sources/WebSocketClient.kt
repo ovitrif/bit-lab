@@ -26,7 +26,7 @@ class WebSocketClient @Inject constructor(
         )
     }
 
-    fun blocks(): Flow<SocketUpdate> = callbackFlow {
+    fun blocks(): Flow<SocketEvent> = callbackFlow {
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 val actionInit = """{ "action": "init" }"""
@@ -37,16 +37,16 @@ class WebSocketClient @Inject constructor(
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                trySend(SocketUpdate(text))
+                trySend(SocketEvent(text))
             }
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                trySend(SocketUpdate(exception = SocketAbortedException()))
+                trySend(SocketEvent(exception = SocketAbortedException()))
                 webSocket.close(NORMAL_CLOSURE_STATUS, null)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                trySend(SocketUpdate(exception = t))
+                trySend(SocketEvent(exception = t))
             }
         }
         val socket = connect(mempoolBaseUrl, listener)
@@ -56,7 +56,7 @@ class WebSocketClient @Inject constructor(
         }
     }
 
-    data class SocketUpdate(
+    data class SocketEvent(
         val text: String? = null,
         val byteString: ByteString? = null,
         val exception: Throwable? = null,
