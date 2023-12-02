@@ -3,22 +3,23 @@
 package tech.masivo.bitlab.data.model
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MempoolResult(
     val mempoolInfo: MempoolInfo,
     val vBytesPerSecond: Long,
     @SerialName("mempool-blocks")
     val mempoolBlocks: List<Block>,
     val transactions: List<Transaction>,
-    val loadingIndicators: Map<String, Any>,
     val fees: Fees,
-    val blocks: List<Block2>,
-    val conversions: Conversions,
-    val backendInfo: BackendInfo,
+    val blocks: List<Block2>? = null,
+    val conversions: Conversions? = null,
     val da: Da,
-    val rbfSummary: List<RbfSummary>,
+    val rbfSummary: List<RbfSummary>? = null,
 )
 
+@Serializable
 data class MempoolInfo(
     val loaded: Boolean,
     val size: Long,
@@ -34,6 +35,7 @@ data class MempoolInfo(
     val fullrbf: Boolean,
 )
 
+@Serializable
 data class Block(
     val blockSize: Long,
     val blockVSize: Double,
@@ -43,6 +45,7 @@ data class Block(
     val feeRange: List<Double>,
 )
 
+@Serializable
 data class Transaction(
     val txid: String,
     val fee: Long,
@@ -51,6 +54,7 @@ data class Transaction(
     val rate: Double,
 )
 
+@Serializable
 data class Fees(
     val fastestFee: Long,
     val halfHourFee: Long,
@@ -59,6 +63,7 @@ data class Fees(
     val minimumFee: Long,
 )
 
+@Serializable
 data class Block2(
     val id: String,
     val height: Long,
@@ -79,10 +84,10 @@ data class Block2(
     val extras: Extras,
 )
 
+@Serializable
 data class Extras(
     val reward: Long,
     val coinbaseRaw: String,
-    val orphans: List<Any?>,
     val medianFee: Double,
     val feeRange: List<Double>,
     val totalFees: Long,
@@ -96,14 +101,11 @@ data class Extras(
     val segwitTotalTxs: Long,
     val segwitTotalSize: Long,
     val segwitTotalWeight: Long,
-    val feePercentiles: Any?,
     val virtualSize: Double,
     val coinbaseAddress: String,
     val coinbaseSignature: String,
     val coinbaseSignatureAscii: String,
     val header: String,
-    val utxoSetSize: Any?,
-    val totalInputAmt: Any?,
     val pool: Pool,
     val matchRate: Double,
     val expectedFees: Long,
@@ -111,12 +113,14 @@ data class Extras(
     val similarity: Double,
 )
 
+@Serializable
 data class Pool(
     val id: Long,
     val name: String,
     val slug: String,
 )
 
+@Serializable
 data class Conversions(
     val time: Long,
     @SerialName("USD")
@@ -135,13 +139,7 @@ data class Conversions(
     val jpy: Long,
 )
 
-data class BackendInfo(
-    val hostname: String,
-    val version: String,
-    val gitCommit: String,
-    val lightning: Boolean,
-)
-
+@Serializable
 data class Da(
     val progressPercent: Double,
     val difficultyChange: Double,
@@ -156,6 +154,7 @@ data class Da(
     val expectedBlocks: Double,
 )
 
+@Serializable
 data class RbfSummary(
     val txid: String,
     val mined: Boolean,

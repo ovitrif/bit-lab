@@ -3,15 +3,18 @@ package tech.masivo.bitlab.data.sources
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import tech.masivo.bitlab.data.model.MempoolResult
 import javax.inject.Inject
 
 class WebSocketClient @Inject constructor(
     private val okHttpClient: OkHttpClient,
+    private val json: Json,
 ) {
     private var mempoolBaseUrl: String = "wss://mempool.space/api/v1/ws"
 
@@ -36,7 +39,8 @@ class WebSocketClient @Inject constructor(
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                trySend(SocketEvent.Update(text))
+                val parsedResult = json.decodeFromString<MempoolResult>(text)
+                trySend(SocketEvent.Update(parsedResult))
             }
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
@@ -56,7 +60,7 @@ class WebSocketClient @Inject constructor(
     }
 
     sealed interface SocketEvent {
-        data class Update(val message: String) : SocketEvent
+        data class Update(val result: MempoolResult) : SocketEvent
         data class Abort(val code: Int, val reason: String) : SocketEvent
         data class Close(val throwable: Throwable) : SocketEvent
     }
