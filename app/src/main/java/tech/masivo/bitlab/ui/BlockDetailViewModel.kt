@@ -18,6 +18,7 @@ class BlockDetailViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     fun fetchDetails(blockId: String) {
+//        TODO: replace with a better endpoint for transactions / block details
         getTransactions(blockId)
     }
 
