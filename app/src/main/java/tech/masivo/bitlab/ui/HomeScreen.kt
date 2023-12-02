@@ -34,9 +34,6 @@ fun HomeScreen(
             text = uiState.title,
             style = MaterialTheme.typography.titleLarge,
         )
-        Button(onClick = uiState.getBlocks) {
-            Text(text = "Get Blocks")
-        }
         BlocksListUi(
             uiState.blocks,
             onBlockClick = onNavigateToBlock,

@@ -8,13 +8,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import tech.masivo.bitlab.data.model.BlockResult
-import tech.masivo.bitlab.data.sources.ApiClient
 import tech.masivo.bitlab.data.sources.WebSocketClient
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val apiClient: ApiClient,
     private val webSocketClient: WebSocketClient,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(initUiState())
@@ -32,15 +30,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getBlocks() {
-        viewModelScope.launch {
-            val blocks = apiClient.mempool.getBlocks()
-            _uiState.emit(
-                _uiState.value.copy(blocks = blocks)
-            )
-        }
-    }
-
     private fun onBlockClick(id: String) {
         TODO("Clicked block with id: $id")
     }
@@ -48,14 +37,12 @@ class HomeViewModel @Inject constructor(
     // REGION: State
     private fun initUiState(): UiState {
         return UiState(
-            getBlocks = ::getBlocks,
             onBlockClick = ::onBlockClick,
         )
     }
 
     data class UiState(
         val title: String = "Bitcoin Blocks Explorer",
-        val getBlocks: () -> Unit = {},
         val onBlockClick: (id: String) -> Unit = {},
         val blocks: List<BlockResult> = emptyList(),
     )
