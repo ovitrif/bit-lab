@@ -1,5 +1,6 @@
 package tech.masivo.bitlab.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -41,6 +42,7 @@ fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BlocksListUi(
     blocks: List<Block>,
@@ -52,6 +54,7 @@ private fun BlocksListUi(
         state = scrollState,
         modifier = Modifier.fillMaxHeight()
     ) {
+        item { Text(text = "Last ${blocks.size} OnChain Blocks") }
         items(
             items = blocks,
             key = { it.id },
