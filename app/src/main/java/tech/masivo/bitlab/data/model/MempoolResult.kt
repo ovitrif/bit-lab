@@ -10,10 +10,10 @@ data class MempoolResult(
     val mempoolInfo: MempoolInfo,
     val vBytesPerSecond: Long,
     @SerialName("mempool-blocks")
-    val mempoolBlocks: List<Block>,
+    val mempoolBlocks: List<MempoolBlock>,
     val transactions: List<Transaction>,
     val fees: Fees,
-    val blocks: List<Block2>? = null,
+    val blocks: List<Block>? = null,
     val conversions: Conversions? = null,
     val da: Da,
     val rbfSummary: List<RbfSummary>? = null,
@@ -36,7 +36,7 @@ data class MempoolInfo(
 )
 
 @Serializable
-data class Block(
+data class MempoolBlock(
     val blockSize: Long,
     val blockVSize: Double,
     val nTx: Long,
@@ -64,7 +64,7 @@ data class Fees(
 )
 
 @Serializable
-data class Block2(
+data class Block(
     val id: String,
     val height: Long,
     val version: Long,

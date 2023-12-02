@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import tech.masivo.bitlab.data.model.BlockResult
+import tech.masivo.bitlab.data.model.Block
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.asMegabytes
@@ -44,7 +43,7 @@ fun HomeScreen(
 
 @Composable
 private fun BlocksListUi(
-    blocks: List<BlockResult>,
+    blocks: List<Block>,
     onBlockClick: (id: String) -> Unit,
 ) {
     val scrollState = rememberLazyListState()
@@ -100,14 +99,14 @@ private fun BlockCardUi(
 private fun HomeScreenPreview() {
     BitlabTheme {
         val uiState = HomeViewModel.UiState(
-            blocks = List(3) {
-                BlockResult(
-                    id = "$it",
-                    timestamp = System.currentTimeMillis(),
-                    bits = it * 100000L,
-                    txCount = it * 100,
-                )
-            }
+//            blocks = List(3) {
+//                Block(
+//                    id = "$it",
+//                    timestamp = System.currentTimeMillis(),
+//                    bits = it * 100000L,
+//                    txCount = it * 100,
+//                )
+//            }
         )
 
         HomeScreen(uiState)
