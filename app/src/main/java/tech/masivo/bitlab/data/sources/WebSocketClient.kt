@@ -4,13 +4,11 @@ import kotlinx.coroutines.channels.Channel
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
-import tech.masivo.bitlab.data.DataModuleFakeInjector
 import javax.inject.Inject
 
 class WebSocketClient @Inject constructor(
+    private val okHttpClient: OkHttpClient,
 ) {
-    private val okHttpClient: OkHttpClient = DataModuleFakeInjector.okHttpClient
-
     private var webSocket: WebSocket? = null
     private var mempoolBaseURL: String = "wss://mempool.space/api/v1/ws"
 

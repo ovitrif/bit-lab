@@ -6,13 +6,12 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import tech.masivo.bitlab.data.DataModuleFakeInjector
 import javax.inject.Inject
 
 @OptIn(ExperimentalSerializationApi::class)
-class ApiClient @Inject constructor() {
-    private val okHttpClient: OkHttpClient = DataModuleFakeInjector.okHttpClient
-
+class ApiClient @Inject constructor(
+    private val okHttpClient: OkHttpClient,
+) {
     private val mempoolBaseUrl = "https://mempool.space/api/"
     private val contentType = "application/json".toMediaType()
 

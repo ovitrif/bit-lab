@@ -1,22 +1,19 @@
 package tech.masivo.bitlab.data
 
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
-// TODO: Debug Hilt build error and refactor to Hilt module, then remove DataModuleFakeInjector
-object DataModuleFakeInjector {
-    val okHttpClient by lazy {
-        DataModule.provideOkHttpClient()
-    }
-}
-
-//@Module
-//@InstallIn(SingletonComponent::class)
+@Module
+@InstallIn(SingletonComponent::class)
 object DataModule {
-
-//    @Provides
-//    @Singleton
+    @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(30, TimeUnit.SECONDS)
