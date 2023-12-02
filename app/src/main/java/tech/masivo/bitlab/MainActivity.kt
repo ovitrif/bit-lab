@@ -7,15 +7,14 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import tech.masivo.bitlab.ui.BlockScreen
+import tech.masivo.bitlab.ui.BlockDetailScreen
+import tech.masivo.bitlab.ui.BlockDetailViewModel
 import tech.masivo.bitlab.ui.HomeScreen
 import tech.masivo.bitlab.ui.HomeViewModel
 import tech.masivo.bitlab.ui.theme.BitlabTheme
@@ -28,6 +27,7 @@ object Routes {
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: HomeViewModel by viewModels()
+    private val blockDetailViewModel: BlockDetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +46,15 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(
                                 uiState = uiState.value,
                                 onNavigateToBlock = {
+                                    // TODO: refactor data loading, ideally scoped to the screen
+                                    blockDetailViewModel.refresh(it)
                                     navController.navigate("${Routes.Block}/id=$it")
                                 }
                             )
                         }
                         composable("${Routes.Block}/id={id}") { backStackEntry ->
                             backStackEntry.arguments?.getString("id")?.let {
-                                BlockScreen(it)
+                                BlockDetailScreen(it, blockDetailViewModel)
                             }
                         }
                     }

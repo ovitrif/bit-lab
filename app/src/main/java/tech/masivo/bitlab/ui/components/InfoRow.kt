@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -28,6 +29,11 @@ fun InfoRow(
             text = label,
             style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Black)
         )
-        Text(text = value, style = MaterialTheme.typography.labelLarge)
+        Text(
+            text = value,
+            style = MaterialTheme.typography.labelLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }

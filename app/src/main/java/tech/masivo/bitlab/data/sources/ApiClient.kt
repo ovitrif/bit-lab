@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalSerializationApi::class)
 class ApiClient @Inject constructor() {
-    private val mempoolBaseUrl = "https://mempool.space/api/v1/"
+    private val mempoolBaseUrl = "https://mempool.space/api/"
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
         setLevel(HttpLoggingInterceptor.Level.BODY)

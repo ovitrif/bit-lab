@@ -27,14 +27,12 @@ import tech.masivo.bitlab.ui.utils.formatTimestamp
 @Composable
 fun HomeScreen(
     uiState: HomeViewModel.UiState,
-    modifier: Modifier = Modifier,
     onNavigateToBlock: (id: String) -> Unit = {},
 ) {
     Column {
         Text(
             text = uiState.title,
             style = MaterialTheme.typography.titleLarge,
-            modifier = modifier
         )
         Button(onClick = uiState.getBlocks) {
             Text(text = "Get Blocks")
