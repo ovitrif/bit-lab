@@ -21,13 +21,12 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     init {
-        startSocket()
+        fetchLiveBlocks()
     }
 
-    private fun startSocket() {
+    private fun fetchLiveBlocks() {
         viewModelScope.launch {
-            val socketChannel = webSocketClient.startSocket()
-            for (socketUpdate in socketChannel) {
+            webSocketClient.blocks().collect { socketUpdate ->
                 Log.d("_WS_", socketUpdate.toString())
             }
         }
@@ -44,11 +43,6 @@ class HomeViewModel @Inject constructor(
 
     private fun onBlockClick(id: String) {
         TODO("Clicked block with id: $id")
-    }
-
-    override fun onCleared() {
-        webSocketClient.stopSocket()
-        super.onCleared()
     }
 
     // REGION: State
