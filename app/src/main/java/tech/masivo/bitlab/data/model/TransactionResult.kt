@@ -11,7 +11,7 @@ data class TransactionResult(
     val size: Long = 0,
     val weight: Long = 0,
     val fee: Long = 0,
-    val status: TransactionStatusResult,
+    val status: TransactionStatusResult = TransactionStatusResult(),
 )
 
 @Serializable

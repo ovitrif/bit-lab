@@ -18,9 +18,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import tech.masivo.bitlab.data.model.TransactionResult
-import tech.masivo.bitlab.data.model.TransactionStatusResult
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
+import tech.masivo.bitlab.ui.utils.formatTimestamp
 import tech.masivo.bitlab.ui.utils.trimId
 
 @Composable
@@ -79,8 +79,8 @@ private fun TransactionsListUI(
                     label = it.txid.trimId(),
                 )
                 InfoRow(
-                    label = "Confirmed:",
-                    value = it.status.confirmed.toString(),
+                    label = "At:",
+                    value = it.locktime.formatTimestamp(),
                 )
             }
         }
@@ -97,9 +97,6 @@ private fun BlockScreenPreview() {
                 TransactionResult(
                     txid = "$it",
                     fee = 0L,
-                    status = TransactionStatusResult(
-                        confirmed = it % 2 == 0,
-                    ),
                 )
             }
         )
