@@ -24,8 +24,8 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchLiveBlocks() {
         viewModelScope.launch {
-            webSocketClient.blocks().collect { socketUpdate ->
-                Log.d("_WS_", socketUpdate.toString())
+            webSocketClient.subscribe().collect {
+                Log.d("_WS_", it.toString())
             }
         }
     }
