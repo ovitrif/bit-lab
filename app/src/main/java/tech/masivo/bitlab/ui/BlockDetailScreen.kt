@@ -63,7 +63,7 @@ private fun TransactionsListUI(
         state = scrollState,
         modifier = Modifier.fillMaxHeight()
     ) {
-        item { Text(text = "Transactions") }
+        item { Text(text = "Last ${items.size} Transactions") }
         items(
             items = items,
             key = { it.txid },
