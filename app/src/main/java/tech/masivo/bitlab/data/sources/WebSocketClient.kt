@@ -29,11 +29,11 @@ class WebSocketClient @Inject constructor(
     fun blocks(): Flow<SocketEvent> = callbackFlow {
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                val actionInit = """{ "action": "init" }"""
-                val actionBlocks = """{ "action": "want", "data": ["mempool-blocks"] }"""
+                val initAction = """{ "action": "init" }"""
+                val wantAction = """{ "action": "want", "data": ["blocks", "mempool-blocks"] }"""
 
-                webSocket.send(actionInit)
-                webSocket.send(actionBlocks)
+                webSocket.send(initAction)
+                webSocket.send(wantAction)
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
@@ -42,7 +42,7 @@ class WebSocketClient @Inject constructor(
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
                 trySend(SocketEvent(exception = SocketAbortedException()))
-                webSocket.close(NORMAL_CLOSURE_STATUS, null)
+                webSocket.close(NORMAL_CLOSURE_STATUS, reason)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
