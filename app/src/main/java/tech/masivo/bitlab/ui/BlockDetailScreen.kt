@@ -63,6 +63,7 @@ private fun TransactionsListUI(
         state = scrollState,
         modifier = Modifier.fillMaxHeight()
     ) {
+        item { Text(text = "Transactions") }
         items(
             items = items,
             key = { it.txid },
@@ -74,8 +75,11 @@ private fun TransactionsListUI(
                     .padding(8.dp),
             ) {
                 InfoRow(
-                    label = "Transaction",
-                    value = it.txid.takeLast(8),
+                    label = it.txid.takeLast(8),
+                )
+                InfoRow(
+                    label = "Confirmed:",
+                    value = it.status.confirmed.toString(),
                 )
             }
         }
