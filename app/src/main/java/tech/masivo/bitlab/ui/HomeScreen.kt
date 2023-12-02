@@ -1,8 +1,8 @@
 package tech.masivo.bitlab.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +23,7 @@ import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.asMegabytes
 import tech.masivo.bitlab.ui.utils.formatTimestamp
+import tech.masivo.bitlab.ui.utils.trimId
 
 @Composable
 fun HomeScreen(
@@ -38,11 +39,9 @@ fun HomeScreen(
             uiState.blocks,
             onBlockClick = onNavigateToBlock,
         )
-        BlockCardUi()
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BlocksListUi(
     blocks: List<Block>,
@@ -61,6 +60,7 @@ private fun BlocksListUi(
         ) {
             BlockCardUi(
                 modifier = Modifier.clickable { onBlockClick(it.id) },
+                id = it.id,
                 time = it.timestamp.formatTimestamp(),
                 size = it.bits.asMegabytes(),
                 transactions = it.txCount.toString(),
@@ -75,6 +75,7 @@ private fun BlockCardUi(
     time: String = "",
     size: String = "",
     transactions: String = "",
+    id: String = "",
 ) {
     Card(
         shape = CardDefaults.elevatedShape,
@@ -83,17 +84,19 @@ private fun BlockCardUi(
             .padding(8.dp),
     ) {
         InfoRow(
-            label = "Time:",
-            value = time,
+            label = id.trimId()
         )
-        InfoRow(
-            label = "Size:",
-            value = size,
-        )
-        InfoRow(
-            label = "Transactions:",
-            value = transactions,
-        )
+        Row {
+            InfoRow(
+                label = "At:",
+                value = time,
+            )
+            InfoRow(label = size)
+            InfoRow(
+                label = transactions,
+                value = "transactions",
+            )
+        }
     }
 }
 

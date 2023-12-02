@@ -20,8 +20,7 @@ fun InfoRow(
 ) {
     Row(
         modifier = Modifier
-            .padding(vertical = 4.dp, horizontal = 16.dp)
-            .fillMaxWidth(),
+            .padding(vertical = 4.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

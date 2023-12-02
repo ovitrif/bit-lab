@@ -21,6 +21,7 @@ import tech.masivo.bitlab.data.model.TransactionResult
 import tech.masivo.bitlab.data.model.TransactionStatusResult
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
+import tech.masivo.bitlab.ui.utils.trimId
 
 @Composable
 fun BlockDetailScreen(
@@ -45,7 +46,7 @@ fun BlockDetails(
 ) {
     Column {
         Text(
-            text = "Block ${blockId.takeLast(8)}",
+            text = "Block ${blockId.trimId()}",
             style = MaterialTheme.typography.titleLarge,
         )
         TransactionsListUI(items = transactions)
@@ -75,7 +76,7 @@ private fun TransactionsListUI(
                     .padding(8.dp),
             ) {
                 InfoRow(
-                    label = it.txid.takeLast(8),
+                    label = it.txid.trimId(),
                 )
                 InfoRow(
                     label = "Confirmed:",

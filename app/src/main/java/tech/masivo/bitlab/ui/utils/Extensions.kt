@@ -13,3 +13,5 @@ fun Long.asMegabytes(): String {
     val megabytes = this.toDouble() / 8 / 1024 / 102
     return String.format("%.2f MB", megabytes)
 }
+
+fun String.trimId(): String = this.takeLast(8)
