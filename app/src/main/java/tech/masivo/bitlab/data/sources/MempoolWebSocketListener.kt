@@ -11,6 +11,7 @@ import okhttp3.WebSocketListener
 import okio.ByteString
 
 //TODO: convert to expose flow
+//TODO: refactor, see: https://developer.android.com/kotlin/coroutines/coroutines-best-practices
 @OptIn(DelicateCoroutinesApi::class)
 class MempoolWebSocketListener(private val coroutineScope: CoroutineScope = GlobalScope) :
     WebSocketListener() {
