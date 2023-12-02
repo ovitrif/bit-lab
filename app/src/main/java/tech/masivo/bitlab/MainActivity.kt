@@ -45,9 +45,8 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.Home) {
                             HomeScreen(
                                 uiState = uiState.value,
-                                onNavigateToBlock = {
-                                    // TODO: refactor data loading, ideally scoped to the screen
-                                    blockDetailViewModel.refresh(it)
+                                onBlockClick = {
+                                    blockDetailViewModel.fetchDetails(it)
                                     navController.navigate("${Routes.Block}/id=$it")
                                 }
                             )

@@ -17,7 +17,7 @@ class BlockDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(initUiState())
     val uiState: StateFlow<UiState> = _uiState
 
-    fun refresh(blockId: String) {
+    fun fetchDetails(blockId: String) {
         getTransactions(blockId)
     }
 

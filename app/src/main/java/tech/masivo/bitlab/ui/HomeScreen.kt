@@ -28,17 +28,14 @@ import tech.masivo.bitlab.ui.utils.trimId
 @Composable
 fun HomeScreen(
     uiState: HomeViewModel.UiState,
-    onNavigateToBlock: (id: String) -> Unit = {},
+    onBlockClick: (id: String) -> Unit = {},
 ) {
     Column {
         Text(
             text = uiState.title,
             style = MaterialTheme.typography.titleLarge,
         )
-        BlocksListUi(
-            uiState.blocks,
-            onBlockClick = onNavigateToBlock,
-        )
+        BlocksListUi(uiState.blocks, onBlockClick)
     }
 }
 
