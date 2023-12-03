@@ -22,16 +22,13 @@ data class TransactionResult(
 data class VinResult(
     val txid: String,
     val vout: Long,
-    val prevout: VoutResult,
+    val prevout: VoutResult? = null,
     val scriptsig: String,
     @SerialName("scriptsig_asm")
     val scriptsigAsm: String,
-    val witness: List<String>,
     @SerialName("is_coinbase")
     val isCoinbase: Boolean,
     val sequence: Long,
-    @SerialName("inner_witnessscript_asm")
-    val innerWitnessscriptAsm: String,
 )
 
 @Serializable
@@ -42,6 +39,6 @@ data class VoutResult(
     @SerialName("scriptpubkey_type")
     val scriptpubkeyType: String,
     @SerialName("scriptpubkey_address")
-    val scriptpubkeyAddress: String,
+    val scriptpubkeyAddress: String? = null,
     val value: Long,
 )

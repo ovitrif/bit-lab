@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import tech.masivo.bitlab.data.model.TransactionResult
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.trimId
@@ -80,14 +79,30 @@ private fun TransactionsListUI(
                     label = it.id.trimId(),
                 )
                 if (it.isExpanded.value) {
-                    InfoRow(
-                        label = "Expanded",
-                    )
+                    if (it.ins.isNotEmpty()) {
+                        Text(text = "Inbound Transfers:")
+                        it.ins.forEach { ins ->
+                            InfoRow(
+                                label = ins.address.trimId(),
+                                value = "${ins.value} sat",
+                            )
+                        }
+                    } else {
+                        Text(text = "Mined")
+                    }
+                    Text(text = "Outbound Transfers:")
+                    it.outs.forEach { ins ->
+                        InfoRow(
+                            label = ins.address.trimId(),
+                            value = "${ins.value} sat",
+                        )
+                    }
                 }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true, device = Devices.PIXEL_4, showSystemUi = true)
 @Composable

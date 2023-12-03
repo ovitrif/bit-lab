@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import tech.masivo.bitlab.data.model.TransactionResult
 import tech.masivo.bitlab.data.sources.RestApiClient
 import javax.inject.Inject
 
@@ -26,12 +27,31 @@ class BlockDetailViewModel @Inject constructor(
     private fun getTransactions(blockId: String) {
         viewModelScope.launch {
             val transactions = restApiClient.mempool.getBlockTransactions(blockId)
-                .map { TransactionUiState(id = it.txid) }
+                .map { it.toUiState() }
             _uiState.emit(
                 _uiState.value.copy(transactions = transactions)
             )
         }
     }
+
+    private fun TransactionResult.toUiState() = TransactionUiState(
+        id = txid,
+        fee = fee,
+        ins = vin.mapNotNull {
+            it.prevout?.let { prevOut ->
+                TransferUiState(
+                    address = prevOut.scriptpubkeyAddress.orEmpty(),
+                    value = prevOut.value,
+                )
+            }
+        },
+        outs = vout.map {
+            TransferUiState(
+                address = it.scriptpubkeyAddress.orEmpty(),
+                value = it.value,
+            )
+        },
+    )
 
     data class UiState(
         val transactions: List<TransactionUiState> = emptyList(),
@@ -39,6 +59,9 @@ class BlockDetailViewModel @Inject constructor(
 
     data class TransactionUiState(
         val id: String,
+        val fee: Long,
+        val ins: List<TransferUiState>,
+        val outs: List<TransferUiState>,
     ) {
         private var _isExpanded = mutableStateOf(false)
         var isExpanded: State<Boolean> = _isExpanded
@@ -47,4 +70,9 @@ class BlockDetailViewModel @Inject constructor(
             _isExpanded.value = !_isExpanded.value
         }
     }
+
+    data class TransferUiState(
+        val address: String,
+        val value: Long,
+    )
 }
