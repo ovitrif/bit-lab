@@ -115,7 +115,7 @@ private fun BlocksListUi(
                 modifier = Modifier.clickable { onBlockClick(it.id) },
                 id = it.id,
                 time = it.timestamp.formatTimestamp(),
-                size = it.bits.asMegabytes(),
+                size = it.size.asMegabytes(),
                 transactions = it.txCount.toString(),
             )
         }

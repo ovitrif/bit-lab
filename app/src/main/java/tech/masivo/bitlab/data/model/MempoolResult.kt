@@ -21,7 +21,7 @@ data class Transaction(
 data class Block(
     val id: String,
     val timestamp: Long,
-    val bits: Long,
+    val size: Long,
     @SerialName("tx_count")
     val txCount: Long,
 )
