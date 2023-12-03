@@ -54,10 +54,7 @@ private fun RecentTransactions(
     Column(modifier = modifier.fillMaxWidth()) {
         Text("Recent Transactions")
         LazyColumn {
-            items(
-                items = items,
-                key = { it.txid },
-            ) {
+            items(items, key = { it.txid }) {
                 InfoCard {
                     Row {
                         InfoRow(label = it.txid.trimId())
