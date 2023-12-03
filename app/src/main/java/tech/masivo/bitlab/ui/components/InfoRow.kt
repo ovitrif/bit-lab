@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 /**
- * A Displays a row of information with a label and a value.
+ * A row of information with a label and a value.
  * If any of the parameters is null, the corresponding side of the row will be empty.
  *
  * @param label The label to be displayed on the left side of the row (optional).
