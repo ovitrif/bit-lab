@@ -90,7 +90,7 @@ private fun TransactionsListUI(
                         it.ins.forEach { ins ->
                             InfoRow(
                                 label = ins.address.trimId(),
-                                value = "${ins.value} sat",
+                                value = "${ins.value} BTC",
                             )
                         }
                     } else {
@@ -100,7 +100,7 @@ private fun TransactionsListUI(
                     it.outs.forEach { ins ->
                         InfoRow(
                             label = ins.address.trimId(),
-                            value = "${ins.value} sat",
+                            value = "${ins.value} BTC",
                         )
                     }
                 }

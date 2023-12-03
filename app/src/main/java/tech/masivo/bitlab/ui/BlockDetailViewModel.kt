@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import tech.masivo.bitlab.data.model.TransactionResult
 import tech.masivo.bitlab.data.sources.RestApiClient
+import tech.masivo.bitlab.ui.utils.satToBtc
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,7 +42,7 @@ class BlockDetailViewModel @Inject constructor(
             it.prevout?.let { prevOut ->
                 TransferUiState(
                     address = prevOut.scriptpubkeyAddress.orEmpty(),
-                    value = prevOut.value,
+                    value = prevOut.value.satToBtc(),
                 )
             }
         },
@@ -49,7 +50,7 @@ class BlockDetailViewModel @Inject constructor(
             it.scriptpubkeyAddress?.let { address ->
                 TransferUiState(
                     address = address,
-                    value = it.value,
+                    value = it.value.satToBtc(),
                 )
             }
         },
@@ -75,6 +76,6 @@ class BlockDetailViewModel @Inject constructor(
 
     data class TransferUiState(
         val address: String,
-        val value: Long,
+        val value: Double,
     )
 }

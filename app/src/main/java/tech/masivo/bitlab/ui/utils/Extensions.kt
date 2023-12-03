@@ -15,3 +15,5 @@ fun Long.asMegabytes(): String {
 }
 
 fun String.trimId(): String = this.takeLast(8)
+
+fun Long.satToBtc(): Double = this.toDouble() / 100_000_000
