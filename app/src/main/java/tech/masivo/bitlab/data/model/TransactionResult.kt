@@ -8,14 +8,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TransactionResult(
     val txid: String,
-    val version: Long = 0,
-    val locktime: Long = 0,
     val vin: List<VinResult>,
     val vout: List<VoutResult>,
-    val size: Long = 0,
-    val weight: Long = 0,
-    val sigops: Long,
-    val fee: Long = 0,
+    val fee: Long,
 )
 
 @Serializable
@@ -23,21 +18,10 @@ data class VinResult(
     val txid: String,
     val vout: Long,
     val prevout: VoutResult? = null,
-    val scriptsig: String,
-    @SerialName("scriptsig_asm")
-    val scriptsigAsm: String,
-    @SerialName("is_coinbase")
-    val isCoinbase: Boolean,
-    val sequence: Long,
 )
 
 @Serializable
 data class VoutResult(
-    val scriptpubkey: String,
-    @SerialName("scriptpubkey_asm")
-    val scriptpubkeyAsm: String,
-    @SerialName("scriptpubkey_type")
-    val scriptpubkeyType: String,
     @SerialName("scriptpubkey_address")
     val scriptpubkeyAddress: String? = null,
     val value: Long,
