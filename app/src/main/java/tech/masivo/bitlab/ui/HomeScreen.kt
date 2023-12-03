@@ -3,18 +3,14 @@ package tech.masivo.bitlab.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import tech.masivo.bitlab.data.model.Block
 import tech.masivo.bitlab.data.model.Transaction
 import tech.masivo.bitlab.ui.components.InfoCard
@@ -61,7 +57,7 @@ private fun RecentTransactions(
                 items = items,
                 key = { it.txid },
             ) {
-                TransactionCardUI(
+                TransactionCard(
                     id = it.txid,
                     fee = it.rate.formatRate(),
                 )
@@ -71,17 +67,11 @@ private fun RecentTransactions(
 }
 
 @Composable
-private fun TransactionCardUI(
+private fun TransactionCard(
     id: String,
     fee: String,
-    modifier: Modifier = Modifier,
 ) {
-    Card(
-        shape = CardDefaults.elevatedShape,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-    ) {
+    InfoCard {
         InfoRow(label = id.trimId())
         Row {
             InfoRow(label = "Fee:", value = "$fee sat/vB")
