@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +38,7 @@ fun BlockDetailScreen(
 }
 
 @Composable
-fun BlockDetails(
+private fun BlockDetails(
     blockId: String,
     transactions: List<BlockDetailViewModel.TransactionUiState>,
 ) {
@@ -48,45 +47,35 @@ fun BlockDetails(
             text = "Block ${blockId.trimId()}",
             style = MaterialTheme.typography.titleLarge,
         )
-        TransactionsListUI(items = transactions)
+        TransactionsList(items = transactions)
     }
 }
 
 @Composable
-private fun TransactionsListUI(
+private fun TransactionsList(
     modifier: Modifier = Modifier,
     items: List<BlockDetailViewModel.TransactionUiState> = emptyList(),
 ) {
-    val scrollState = rememberLazyListState()
-    LazyColumn(
-        userScrollEnabled = true,
-        state = scrollState,
-        modifier = Modifier.fillMaxHeight()
-    ) {
-        item { Text(text = "Last ${items.size} Transactions") }
+    LazyColumn(modifier.fillMaxHeight()) {
+        item { Text("Last ${items.size} Transactions") }
         items(
             items = items,
             key = { it.id },
         ) {
             Card(
                 shape = CardDefaults.elevatedShape,
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
                     .clickable(onClick = it::toggle),
             ) {
-                InfoRow(
-                    label = it.id.trimId(),
-                )
+                InfoRow(label = it.id.trimId())
                 it.fee.takeIf { v -> v > 0 }?.let { fee ->
-                    InfoRow(
-                        label = "Fee:",
-                        value = "$fee sat",
-                    )
+                    InfoRow(label = "Fee:", value = "$fee sat")
                 }
                 if (it.isExpanded.value) {
                     if (it.ins.isNotEmpty()) {
-                        Text(text = "Inbound Transfers:")
+                        Text("Inbound Transfers:")
                         it.ins.forEach { ins ->
                             InfoRow(
                                 label = ins.address.trimId(),
@@ -96,19 +85,15 @@ private fun TransactionsListUI(
                     } else {
                         Text(text = "Mined")
                     }
-                    Text(text = "Outbound Transfers:")
+                    Text("Outbound Transfers:")
                     it.outs.forEach { ins ->
-                        InfoRow(
-                            label = ins.address.trimId(),
-                            value = "${ins.value} BTC",
-                        )
+                        InfoRow(label = ins.address.trimId(), value = "${ins.value} BTC")
                     }
                 }
             }
         }
     }
 }
-
 
 @Preview(showBackground = true, device = Devices.PIXEL_4, showSystemUi = true)
 @Composable
