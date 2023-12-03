@@ -1,13 +1,11 @@
 package tech.masivo.bitlab.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.masivo.bitlab.data.model.Block
 import tech.masivo.bitlab.data.model.Transaction
+import tech.masivo.bitlab.ui.components.InfoCard
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.asMegabytes
@@ -37,12 +36,12 @@ fun HomeScreen(
             style = MaterialTheme.typography.titleLarge,
         )
         Column {
-            BlocksListUi(
+            BlocksList(
                 uiState.blocks,
                 onBlockClick,
                 modifier = Modifier.weight(.5f)
             )
-            RecentTransactionsUi(
+            RecentTransactions(
                 items = uiState.transactions,
                 modifier = Modifier.weight(.5f)
             )
@@ -51,12 +50,12 @@ fun HomeScreen(
 }
 
 @Composable
-private fun RecentTransactionsUi(
+private fun RecentTransactions(
     items: List<Transaction>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Text(text = "Recent Transactions")
+        Text("Recent Transactions")
         LazyColumn {
             items(
                 items = items,
@@ -73,9 +72,9 @@ private fun RecentTransactionsUi(
 
 @Composable
 private fun TransactionCardUI(
+    id: String,
+    fee: String,
     modifier: Modifier = Modifier,
-    id: String = "",
-    fee: String = "",
 ) {
     Card(
         shape = CardDefaults.elevatedShape,
@@ -85,70 +84,32 @@ private fun TransactionCardUI(
     ) {
         InfoRow(label = id.trimId())
         Row {
-            InfoRow(
-                label = "Fee:",
-                value = "$fee sat/vB"
-            )
+            InfoRow(label = "Fee:", value = "$fee sat/vB")
         }
     }
 }
 
 
 @Composable
-private fun BlocksListUi(
+private fun BlocksList(
     blocks: List<Block>,
     onBlockClick: (id: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val scrollState = rememberLazyListState()
-    LazyColumn(
-        userScrollEnabled = true,
-        state = scrollState,
-        modifier = modifier
-    ) {
+    LazyColumn(modifier) {
         item { Text(text = "Last ${blocks.size} OnChain Blocks") }
         items(
             items = blocks,
             key = { it.id },
         ) {
-            BlockCardUi(
-                modifier = Modifier.clickable { onBlockClick(it.id) },
-                id = it.id,
-                time = it.timestamp.formatTimestamp(),
-                size = it.size.asMegabytes(),
-                transactions = it.txCount.toString(),
-            )
-        }
-    }
-}
-
-@Composable
-private fun BlockCardUi(
-    modifier: Modifier = Modifier,
-    time: String = "",
-    size: String = "",
-    transactions: String = "",
-    id: String = "",
-) {
-    Card(
-        shape = CardDefaults.elevatedShape,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-    ) {
-        InfoRow(
-            label = id.trimId()
-        )
-        Row {
-            InfoRow(
-                label = "At:",
-                value = time,
-            )
-            InfoRow(label = size)
-            InfoRow(
-                label = transactions,
-                value = "transactions",
-            )
+            InfoCard(onClick = { onBlockClick(it.id) }) {
+                InfoRow(label = it.id.trimId())
+                Row {
+                    InfoRow(label = "At:", value = it.timestamp.formatTimestamp())
+                    InfoRow(label = it.size.asMegabytes())
+                    InfoRow(label = it.txCount.toString(), value = "transactions")
+                }
+            }
         }
     }
 }
@@ -157,17 +118,7 @@ private fun BlockCardUi(
 @Composable
 private fun HomeScreenPreview() {
     BitlabTheme {
-        val uiState = HomeViewModel.UiState(
-//            blocks = List(3) {
-//                Block(
-//                    id = "$it",
-//                    timestamp = System.currentTimeMillis(),
-//                    bits = it * 100000L,
-//                    txCount = it * 100,
-//                )
-//            }
-        )
-
+        val uiState = HomeViewModel.UiState()
         HomeScreen(uiState)
     }
 }
