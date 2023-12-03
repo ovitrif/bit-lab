@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class ApiClient @Inject constructor(
+class RestApiClient @Inject constructor(
     private val okHttpClient: OkHttpClient,
     private val json: Json,
 ) {
@@ -22,5 +22,5 @@ class ApiClient @Inject constructor(
         .addConverterFactory(json.asConverterFactory(contentType))
         .build()
 
-    val mempool: MempoolApi = retrofitBuilder(mempoolBaseUrl).create(MempoolApi::class.java)
+    val mempool: MempoolRestApi = retrofitBuilder(mempoolBaseUrl).create(MempoolRestApi::class.java)
 }

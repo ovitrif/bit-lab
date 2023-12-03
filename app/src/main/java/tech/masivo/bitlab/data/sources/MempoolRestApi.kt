@@ -4,7 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import tech.masivo.bitlab.data.model.TransactionResult
 
-interface MempoolApi {
+interface MempoolRestApi {
     @GET("block/{id}/txs")
     suspend fun getBlockTransactions(@Path("id") blockId: String): List<TransactionResult>
 }
