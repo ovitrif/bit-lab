@@ -1,22 +1,17 @@
 package tech.masivo.bitlab.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import tech.masivo.bitlab.ui.components.InfoCard
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.trimId
@@ -59,13 +54,7 @@ private fun TransactionsList(
     LazyColumn(modifier.fillMaxHeight()) {
         item { Text("Last ${items.size} Transactions") }
         items(items, key = { it.id }) {
-            Card(
-                shape = CardDefaults.elevatedShape,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .clickable(onClick = it::toggle),
-            ) {
+            InfoCard(onClick = it::toggle) {
                 InfoRow(label = it.id.trimId())
                 it.fee.takeIf { v -> v > 0 }?.let { fee ->
                     InfoRow(label = "Fee:", value = "$fee sat")
