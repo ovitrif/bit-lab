@@ -3,7 +3,6 @@ package tech.masivo.bitlab.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -52,10 +51,41 @@ fun HomeScreen(
 private fun RecentTransactionsUi(
     modifier: Modifier = Modifier,
 ) {
-    Row(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(text = "Recent Transactions")
+        LazyColumn {
+            item {
+                TransactionCardUI(
+                    id = "123156456498413214894",
+                    fee = "0.425",
+                )
+            }
+        }
     }
 }
+
+@Composable
+private fun TransactionCardUI(
+    modifier: Modifier = Modifier,
+    id: String = "",
+    fee: String = "",
+) {
+    Card(
+        shape = CardDefaults.elevatedShape,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+    ) {
+        InfoRow(label = id.trimId())
+        Row {
+            InfoRow(
+                label = "Fee:",
+                value = "$fee sat/vB"
+            )
+        }
+    }
+}
+
 
 @Composable
 private fun BlocksListUi(
