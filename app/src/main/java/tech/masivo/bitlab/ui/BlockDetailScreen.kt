@@ -78,6 +78,12 @@ private fun TransactionsListUI(
                 InfoRow(
                     label = it.id.trimId(),
                 )
+                it.fee.takeIf { v -> v > 0 }?.let { fee ->
+                    InfoRow(
+                        label = "Fee:",
+                        value = "$fee sat",
+                    )
+                }
                 if (it.isExpanded.value) {
                     if (it.ins.isNotEmpty()) {
                         Text(text = "Inbound Transfers:")
