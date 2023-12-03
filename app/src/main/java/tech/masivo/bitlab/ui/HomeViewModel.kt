@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import tech.masivo.bitlab.data.model.Block
 import tech.masivo.bitlab.data.model.Transaction
-import tech.masivo.bitlab.data.sources.WebSocketClient
+import tech.masivo.bitlab.data.sources.MempoolWebSocketClient
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val webSocketClient: WebSocketClient,
+    private val mempoolWebSocketClient: MempoolWebSocketClient,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(initUiState())
     val uiState: StateFlow<UiState> = _uiState
@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchLiveData() {
         viewModelScope.launch {
-            webSocketClient.data().collect {
+            mempoolWebSocketClient.data().collect {
                 // Update blocks on ui only when we have new data
                 val blocks = it.blocks ?: _uiState.value.blocks
                 _uiState.value = _uiState.value.copy(

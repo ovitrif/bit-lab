@@ -14,7 +14,7 @@ import okhttp3.WebSocketListener
 import tech.masivo.bitlab.data.model.MempoolResult
 import javax.inject.Inject
 
-class WebSocketClient @Inject constructor(
+class MempoolWebSocketClient @Inject constructor(
     private val okHttpClient: OkHttpClient,
     private val json: Json,
 ) {
@@ -23,16 +23,6 @@ class WebSocketClient @Inject constructor(
     fun data(): Flow<MempoolResult> = eventsFlow
         .filterIsInstance<SocketEvent.Update>()
         .map { it.result }
-
-    private fun connect(
-        baseUrl: String,
-        listener: WebSocketListener,
-    ): WebSocket {
-        return okHttpClient.newWebSocket(
-            Request.Builder().url(baseUrl).build(),
-            listener
-        )
-    }
 
     private fun subscribe(): Flow<SocketEvent> = callbackFlow {
         val listener = object : WebSocketListener() {
@@ -58,21 +48,28 @@ class WebSocketClient @Inject constructor(
                 trySend(SocketEvent.Close(t))
             }
         }
-        val socket = connect(MEMPOOL_BASE_URL, listener)
+        val socket = connect(listener)
 
         awaitClose {
             socket.close(NORMAL_CLOSURE_STATUS, APP_DISCONNECTED_REASON)
         }
     }
 
-    sealed interface SocketEvent {
+    private fun connect(listener: WebSocketListener): WebSocket {
+        return okHttpClient.newWebSocket(
+            Request.Builder().url(BASE_URL).build(),
+            listener
+        )
+    }
+
+    private sealed interface SocketEvent {
         data class Update(val result: MempoolResult) : SocketEvent
         data class Abort(val code: Int, val reason: String) : SocketEvent
         data class Close(val throwable: Throwable) : SocketEvent
     }
 
     companion object {
-        const val MEMPOOL_BASE_URL: String = "wss://mempool.space/api/v1/ws"
+        const val BASE_URL: String = "wss://mempool.space/api/v1/ws"
 
         const val NORMAL_CLOSURE_STATUS = 1000
         const val APP_DISCONNECTED_REASON = "APP_DISCONNECTED"

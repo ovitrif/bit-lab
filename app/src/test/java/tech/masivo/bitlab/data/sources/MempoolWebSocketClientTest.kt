@@ -4,12 +4,12 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.mock
 
-class WebSocketClientTest {
-    private lateinit var client: WebSocketClient
+class MempoolWebSocketClientTest {
+    private lateinit var client: MempoolWebSocketClient
 
     @Before
     fun setUp() {
-        client = WebSocketClient(
+        client = MempoolWebSocketClient(
             okHttpClient = mock(),
             json = mock()
         )

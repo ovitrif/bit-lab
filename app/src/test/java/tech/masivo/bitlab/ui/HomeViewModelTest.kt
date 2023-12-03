@@ -10,7 +10,7 @@ class HomeViewModelTest {
     @Before
     fun setUp() {
         viewModel = HomeViewModel(
-            webSocketClient = mock(),
+            mempoolWebSocketClient = mock(),
         )
     }
 
