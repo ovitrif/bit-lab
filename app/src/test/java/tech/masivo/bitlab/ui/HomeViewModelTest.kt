@@ -20,7 +20,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `should emit data updates`() {
+    fun `should emit data updates to ui state`() {
         TODO("Not yet implemented")
     }
 
