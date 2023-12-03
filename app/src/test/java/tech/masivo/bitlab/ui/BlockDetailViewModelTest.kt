@@ -10,7 +10,7 @@ class BlockDetailViewModelTest {
     @Before
     fun setUp() {
         viewModel = BlockDetailViewModel(
-            restApiClient = mock()
+            mempoolRestApi = mock()
         )
     }
 
