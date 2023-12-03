@@ -15,7 +15,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val mempoolWebSocketClient: MempoolWebSocketClient,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(initUiState())
+    private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 
     init {
@@ -35,20 +35,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun onBlockClick(id: String) {
-        TODO("Clicked block with id: $id")
-    }
-
-    // REGION: State
-    private fun initUiState(): UiState {
-        return UiState(
-            onBlockClick = ::onBlockClick,
-        )
-    }
-
     data class UiState(
         val title: String = "Bitcoin Blocks Explorer",
-        val onBlockClick: (id: String) -> Unit = {},
         val blocks: List<Block> = emptyList(),
         val transactions: List<Transaction> = emptyList(),
     )
