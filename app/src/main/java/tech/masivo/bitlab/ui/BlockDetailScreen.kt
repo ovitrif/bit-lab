@@ -28,7 +28,7 @@ fun BlockDetailScreen(
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.value.transactions.isEmpty()) {
-        Text(text = "Loading...")
+        Text("Loading...")
     } else {
         BlockDetails(
             blockId = blockId,
@@ -80,7 +80,7 @@ private fun TransactionsList(
                             )
                         }
                     } else {
-                        Text(text = "Mined")
+                        Text("Mined")
                     }
                     Text("Outbound Transfers:")
                     it.outbounds.forEach { ins ->
