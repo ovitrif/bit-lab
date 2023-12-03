@@ -2,6 +2,7 @@ package tech.masivo.bitlab.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -57,28 +58,17 @@ private fun RecentTransactions(
                 items = items,
                 key = { it.txid },
             ) {
-                TransactionCard(
-                    id = it.txid,
-                    fee = it.rate.formatRate(),
-                )
+                InfoCard {
+                    Row {
+                        InfoRow(label = it.txid.trimId())
+                        Spacer(Modifier.weight(1f))
+                        InfoRow(label = "Fee:", value = "${it.rate.formatRate()} sat/vB")
+                    }
+                }
             }
         }
     }
 }
-
-@Composable
-private fun TransactionCard(
-    id: String,
-    fee: String,
-) {
-    InfoCard {
-        InfoRow(label = id.trimId())
-        Row {
-            InfoRow(label = "Fee:", value = "$fee sat/vB")
-        }
-    }
-}
-
 
 @Composable
 private fun BlocksList(
