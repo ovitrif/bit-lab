@@ -18,9 +18,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.masivo.bitlab.data.model.Block
+import tech.masivo.bitlab.data.model.Transaction
 import tech.masivo.bitlab.ui.components.InfoRow
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 import tech.masivo.bitlab.ui.utils.asMegabytes
+import tech.masivo.bitlab.ui.utils.formatRate
 import tech.masivo.bitlab.ui.utils.formatTimestamp
 import tech.masivo.bitlab.ui.utils.trimId
 
@@ -41,6 +43,7 @@ fun HomeScreen(
                 modifier = Modifier.weight(.5f)
             )
             RecentTransactionsUi(
+                items = uiState.transactions,
                 modifier = Modifier.weight(.5f)
             )
         }
@@ -49,15 +52,19 @@ fun HomeScreen(
 
 @Composable
 private fun RecentTransactionsUi(
+    items: List<Transaction>,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(text = "Recent Transactions")
         LazyColumn {
-            item {
+            items(
+                items = items,
+                key = { it.txid },
+            ) {
                 TransactionCardUI(
-                    id = "123156456498413214894",
-                    fee = "0.425",
+                    id = it.txid,
+                    fee = it.rate.formatRate(),
                 )
             }
         }

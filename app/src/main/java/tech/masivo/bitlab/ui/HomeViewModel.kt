@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import tech.masivo.bitlab.data.model.Block
+import tech.masivo.bitlab.data.model.Transaction
 import tech.masivo.bitlab.data.sources.WebSocketClient
 import javax.inject.Inject
 
@@ -44,5 +45,21 @@ class HomeViewModel @Inject constructor(
         val title: String = "Bitcoin Blocks Explorer",
         val onBlockClick: (id: String) -> Unit = {},
         val blocks: List<Block> = emptyList(),
+        val transactions: List<Transaction> = listOf(
+            Transaction(
+                txid = "1",
+                fee = 1000,
+                vsize = 1000.0,
+                value = 1000,
+                rate = 1.45,
+            ),
+            Transaction(
+                txid = "2",
+                fee = 1000,
+                vsize = 1000.0,
+                value = 1000,
+                rate = 1.0,
+            ),
+        ),
     )
 }
