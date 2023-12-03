@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-    private const val TIMEOUT_SECONDS = 60L
+    private const val NETWORK_TIMEOUT_SECONDS = 60L
 
     @Provides
     @Singleton
@@ -32,8 +32,8 @@ object DataModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .readTimeout(NETWORK_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .connectTimeout(NETWORK_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     setLevel(HttpLoggingInterceptor.Level.BODY)
