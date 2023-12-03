@@ -19,11 +19,6 @@ import tech.masivo.bitlab.ui.HomeScreen
 import tech.masivo.bitlab.ui.HomeViewModel
 import tech.masivo.bitlab.ui.theme.BitlabTheme
 
-object Routes {
-    const val Home = "home"
-    const val Block = "block"
-}
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: HomeViewModel by viewModels()
@@ -60,5 +55,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private object Routes {
+        const val Home = "home"
+        const val Block = "block"
     }
 }
