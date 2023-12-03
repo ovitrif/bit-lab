@@ -27,11 +27,8 @@ class MempoolWebSocketClient @Inject constructor(
     private fun subscribe(): Flow<SocketEvent> = callbackFlow {
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                val initAction = """{ "action": "init" }"""
-                val wantAction = """{"action":"want","data":["blocks","stats","mempool-blocks"]}"""
-
-                webSocket.send(initAction)
-                webSocket.send(wantAction)
+                webSocket.send(INIT_ACTION)
+                webSocket.send(WANT_ACTION)
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
@@ -73,5 +70,7 @@ class MempoolWebSocketClient @Inject constructor(
 
         const val NORMAL_CLOSURE_STATUS = 1000
         const val APP_DISCONNECTED_REASON = "APP_DISCONNECTED"
+        const val INIT_ACTION = """{ "action": "init" }"""
+        const val WANT_ACTION = """{"action":"want","data":["blocks","stats","mempool-blocks"]}"""
     }
 }
