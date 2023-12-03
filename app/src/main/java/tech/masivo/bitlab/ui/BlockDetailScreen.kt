@@ -74,9 +74,9 @@ private fun TransactionsList(
                     InfoRow(label = "Fee:", value = "$fee sat")
                 }
                 if (it.isExpanded.value) {
-                    if (it.ins.isNotEmpty()) {
+                    if (it.inbounds.isNotEmpty()) {
                         Text("Inbound Transfers:")
-                        it.ins.forEach { ins ->
+                        it.inbounds.forEach { ins ->
                             InfoRow(
                                 label = ins.address.trimId(),
                                 value = "${ins.value} BTC",
@@ -86,7 +86,7 @@ private fun TransactionsList(
                         Text(text = "Mined")
                     }
                     Text("Outbound Transfers:")
-                    it.outs.forEach { ins ->
+                    it.outbounds.forEach { ins ->
                         InfoRow(label = ins.address.trimId(), value = "${ins.value} BTC")
                     }
                 }

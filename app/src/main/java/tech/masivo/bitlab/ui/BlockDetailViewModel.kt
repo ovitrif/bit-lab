@@ -37,7 +37,7 @@ class BlockDetailViewModel @Inject constructor(
     private fun TransactionResult.toUiState() = TransactionUiState(
         id = txid,
         fee = fee,
-        ins = vin.mapNotNull {
+        inbounds = vin.mapNotNull {
             it.prevout?.let { prevOut ->
                 TransferUiState(
                     address = prevOut.scriptpubkeyAddress.orEmpty(),
@@ -45,7 +45,8 @@ class BlockDetailViewModel @Inject constructor(
                 )
             }
         },
-        outs = vout.mapNotNull {
+        outbounds = vout.mapNotNull {
+            // scriptpubkey_address is null for mined transactions (?)
             it.scriptpubkeyAddress?.let { address ->
                 TransferUiState(
                     address = address,
@@ -62,15 +63,13 @@ class BlockDetailViewModel @Inject constructor(
     data class TransactionUiState(
         val id: String,
         val fee: Long,
-        val ins: List<TransferUiState>,
-        val outs: List<TransferUiState>,
+        val inbounds: List<TransferUiState>,
+        val outbounds: List<TransferUiState>,
     ) {
         private var _isExpanded = mutableStateOf(false)
         var isExpanded: State<Boolean> = _isExpanded
 
-        fun toggle() {
-            _isExpanded.value = !_isExpanded.value
-        }
+        fun toggle() = let { _isExpanded.value = !_isExpanded.value }
     }
 
     data class TransferUiState(
