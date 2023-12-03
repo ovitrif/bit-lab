@@ -1,7 +1,8 @@
 package tech.masivo.bitlab.ui.utils
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 private val BLOCK_DATE_FORMAT = SimpleDateFormat("HH:mm:ss", Locale.ROOT)
 
@@ -16,4 +17,8 @@ fun Long.asMegabytes(): String {
 
 fun String.trimId(): String = this.takeLast(8)
 
+/**
+ * Converts sat to btc (1 BTC = 100,000,000 sat)
+ * TODO: use BigDecimal to avoid rounding errors
+ * */
 fun Long.satToBtc(): Double = this.toDouble() / 100_000_000
