@@ -7,4 +7,8 @@ import tech.masivo.bitlab.data.model.TransactionResult
 interface MempoolRestApi {
     @GET("block/{id}/txs/0")
     suspend fun getBlockTransactions(@Path("id") blockId: String): List<TransactionResult>
+
+    companion object {
+        const val BASE_URL = "https://mempool.space/api/"
+    }
 }

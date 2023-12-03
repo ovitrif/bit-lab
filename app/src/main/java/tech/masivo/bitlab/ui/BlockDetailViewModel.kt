@@ -9,13 +9,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import tech.masivo.bitlab.data.model.TransactionResult
-import tech.masivo.bitlab.data.sources.RestApiClient
+import tech.masivo.bitlab.data.sources.MempoolRestApi
 import tech.masivo.bitlab.ui.utils.satToBtc
 import javax.inject.Inject
 
 @HiltViewModel
 class BlockDetailViewModel @Inject constructor(
-    private val restApiClient: RestApiClient,
+    private val mempoolRestApi: MempoolRestApi,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
@@ -26,7 +26,7 @@ class BlockDetailViewModel @Inject constructor(
 
     private fun getTransactions(blockId: String) {
         viewModelScope.launch {
-            val transactions = restApiClient.mempool.getBlockTransactions(blockId)
+            val transactions = mempoolRestApi.getBlockTransactions(blockId)
                 .map { it.toUiState() }
             _uiState.emit(
                 _uiState.value.copy(transactions = transactions)
