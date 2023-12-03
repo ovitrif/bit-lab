@@ -2,7 +2,7 @@ package tech.masivo.bitlab.ui
 
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
+import org.mockito.kotlin.mock
 
 class HomeViewModelTest {
     private lateinit var viewModel: HomeViewModel
