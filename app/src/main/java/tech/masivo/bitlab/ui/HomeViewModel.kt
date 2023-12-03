@@ -19,13 +19,18 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
 
     init {
-        fetchLiveBlocks()
+        fetchLiveData()
     }
 
-    private fun fetchLiveBlocks() {
+    private fun fetchLiveData() {
         viewModelScope.launch {
-            webSocketClient.blocks().collect {
-                _uiState.value = _uiState.value.copy(blocks = it)
+            webSocketClient.data().collect {
+                // Update blocks on ui only when we have new data
+                val blocks = it.blocks ?: _uiState.value.blocks
+                _uiState.value = _uiState.value.copy(
+                    blocks = blocks,
+                    transactions = it.transactions,
+                )
             }
         }
     }
@@ -45,21 +50,6 @@ class HomeViewModel @Inject constructor(
         val title: String = "Bitcoin Blocks Explorer",
         val onBlockClick: (id: String) -> Unit = {},
         val blocks: List<Block> = emptyList(),
-        val transactions: List<Transaction> = listOf(
-            Transaction(
-                txid = "1",
-                fee = 1000,
-                vsize = 1000.0,
-                value = 1000,
-                rate = 1.45,
-            ),
-            Transaction(
-                txid = "2",
-                fee = 1000,
-                vsize = 1000.0,
-                value = 1000,
-                rate = 1.0,
-            ),
-        ),
+        val transactions: List<Transaction> = emptyList(),
     )
 }

@@ -4,14 +4,13 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
-import tech.masivo.bitlab.data.model.Block
 import tech.masivo.bitlab.data.model.MempoolResult
 import javax.inject.Inject
 
@@ -21,9 +20,9 @@ class WebSocketClient @Inject constructor(
 ) {
     private val eventsFlow: Flow<SocketEvent> by lazy { subscribe() }
 
-    fun blocks(): Flow<List<Block>> = eventsFlow
+    fun data(): Flow<MempoolResult> = eventsFlow
         .filterIsInstance<SocketEvent.Update>()
-        .mapNotNull { it.result.blocks }
+        .map { it.result }
 
     private fun connect(
         baseUrl: String,
