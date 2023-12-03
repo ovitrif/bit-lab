@@ -45,11 +45,13 @@ class BlockDetailViewModel @Inject constructor(
                 )
             }
         },
-        outs = vout.map {
-            TransferUiState(
-                address = it.scriptpubkeyAddress.orEmpty(),
-                value = it.value,
-            )
+        outs = vout.mapNotNull {
+            it.scriptpubkeyAddress?.let { address ->
+                TransferUiState(
+                    address = address,
+                    value = it.value,
+                )
+            }
         },
     )
 
