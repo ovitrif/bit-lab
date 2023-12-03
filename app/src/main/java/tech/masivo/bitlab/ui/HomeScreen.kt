@@ -35,7 +35,25 @@ fun HomeScreen(
             text = uiState.title,
             style = MaterialTheme.typography.titleLarge,
         )
-        BlocksListUi(uiState.blocks, onBlockClick)
+        Column {
+            BlocksListUi(
+                uiState.blocks,
+                onBlockClick,
+                modifier = Modifier.weight(.5f)
+            )
+            RecentTransactionsUi(
+                modifier = Modifier.weight(.5f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun RecentTransactionsUi(
+    modifier: Modifier = Modifier,
+) {
+    Row(modifier = modifier.fillMaxWidth()) {
+        Text(text = "Recent Transactions")
     }
 }
 
@@ -43,12 +61,13 @@ fun HomeScreen(
 private fun BlocksListUi(
     blocks: List<Block>,
     onBlockClick: (id: String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         userScrollEnabled = true,
         state = scrollState,
-        modifier = Modifier.fillMaxHeight()
+        modifier = modifier
     ) {
         item { Text(text = "Last ${blocks.size} OnChain Blocks") }
         items(
