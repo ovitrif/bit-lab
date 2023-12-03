@@ -29,7 +29,7 @@ fun HomeScreen(
 ) {
     Column {
         Text(
-            text = uiState.title,
+            text = "Bitcoin Blocks Explorer",
             style = MaterialTheme.typography.titleLarge,
         )
         Column {

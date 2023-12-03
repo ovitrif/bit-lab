@@ -36,7 +36,6 @@ class HomeViewModel @Inject constructor(
     }
 
     data class UiState(
-        val title: String = "Bitcoin Blocks Explorer",
         val blocks: List<Block> = emptyList(),
         val transactions: List<Transaction> = emptyList(),
     )
