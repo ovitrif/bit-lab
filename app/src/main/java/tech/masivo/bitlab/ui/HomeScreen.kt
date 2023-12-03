@@ -98,10 +98,7 @@ private fun BlocksList(
 ) {
     LazyColumn(modifier) {
         item { Text(text = "Last ${blocks.size} OnChain Blocks") }
-        items(
-            items = blocks,
-            key = { it.id },
-        ) {
+        items(blocks, key = { it.id }) {
             InfoCard(onClick = { onBlockClick(it.id) }) {
                 InfoRow(label = it.id.trimId())
                 Row {

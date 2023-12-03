@@ -58,10 +58,7 @@ private fun TransactionsList(
 ) {
     LazyColumn(modifier.fillMaxHeight()) {
         item { Text("Last ${items.size} Transactions") }
-        items(
-            items = items,
-            key = { it.id },
-        ) {
+        items(items, key = { it.id }) {
             Card(
                 shape = CardDefaults.elevatedShape,
                 modifier = Modifier
